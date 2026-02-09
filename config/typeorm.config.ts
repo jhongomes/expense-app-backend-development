@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     entities: ['dist/**/*.entity.js'],
-    migrations: ['dist/db/migrations/*.js'],
+    migrations: ['dist/src/db/migrations/*.js'],
     synchronize: false, // NUNCA em produção
 });
 

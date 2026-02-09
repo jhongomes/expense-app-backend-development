@@ -14,7 +14,7 @@ export class Expense1770673119423 implements MigrationInterface {
             "created_at" TIMESTAMP NOT NULL DEFAULT now(),
             CONSTRAINT "fk_expense_user"
               FOREIGN KEY ("user_id")
-              REFERENCES "users"("id")
+              REFERENCES "user"("id")
               ON DELETE CASCADE
     );
 `);
