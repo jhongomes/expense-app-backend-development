@@ -20,7 +20,7 @@ export class CreateUserDto {
 
     @ApiProperty({ type: 'string', required: false })
     @IsOptional()
-    trialEndsAt?: Date
+    trial_ends_at?: Date
 
     @ApiProperty({ type: 'number' })
     created_at: number;

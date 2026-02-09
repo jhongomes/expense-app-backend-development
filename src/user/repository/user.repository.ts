@@ -18,7 +18,7 @@ export class UserRepository extends Repository<User> {
         const user = this.create({
             phone,
             plan: 'free',
-            trialEndsAt: this.getTrialEndDate(),
+            trial_ends_at: this.getTrialEndDate(),
         });
 
         return this.save(user);
@@ -46,5 +46,11 @@ export class UserRepository extends Repository<User> {
         const date = new Date();
         date.setDate(date.getDate() + 7);
         return date;
+    }
+
+    async findById(id: string): Promise<User | null> {
+        return this.findOne({
+            where: { id },
+        });
     }
 }

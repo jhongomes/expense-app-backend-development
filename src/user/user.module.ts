@@ -10,6 +10,6 @@ import { Repository } from "lib/src/enum/repositories.enum";
     imports: [TypeOrmModule.forFeature(TypeOrmRepositoryConfig.getRepositoryOf(Repository.USER))],
     controllers: [UserController],
     providers: [UserService, UserRepository],
-    exports: [UserService]
+    exports: [UserService, UserRepository]
 })
 export class USerModule { }

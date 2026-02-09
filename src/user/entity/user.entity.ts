@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Expense } from "src/expense/entity/expense.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -21,7 +22,7 @@ export class User {
 
     @ApiProperty({ type: 'string', nullable: true })
     @Column({ type: 'timestamp', nullable: true })
-    trialEndsAt?: Date;
+    trial_ends_at?: Date;
 
     @CreateDateColumn()
     created_at: Date;
@@ -29,9 +30,9 @@ export class User {
     @UpdateDateColumn()
     updated_at: Date;
 
-    //@OneToMany(() => Expense, expense => expense.user)
-    //expenses: Expense[];
-    //
+    @OneToMany(() => Expense, expense => expense.user)
+    expenses: Expense[];
+    
     //@OneToOne(() => Subscription, sub => sub.user)
     //subscription: Subscription;
 }

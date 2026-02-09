@@ -1,16 +1,16 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { DataSource } from 'typeorm';
-import { TypeormEntityConfig } from './typeorm.entity.config';
-import { Entitie } from 'lib/src/enum/entities.enum';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
-    host: process.env.DB_HOST,
+    host: 'localhost',
     port: Number(process.env.DB_PORT),
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    entities: [...TypeormEntityConfig.getEntitiesOf(Entitie.USER)],
-    migrations: ['src/database/migrations/*.ts'],
+    entities: ['dist/**/*.entity.js'],
+    migrations: ['dist/db/migrations/*.js'],
     synchronize: false, // NUNCA em produção
 });
 
