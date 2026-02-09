@@ -1,3 +1,4 @@
 export enum Entitie {
-    USER = 'user'
+    USER = 'user',
+    EXPENSE = 'expense'
 }
