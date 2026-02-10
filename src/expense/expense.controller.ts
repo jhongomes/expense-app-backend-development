@@ -4,6 +4,7 @@ import { Expense } from './entity/expense.entity';
 import { ResponseTypeDto } from 'lib/src/general';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { CreateExpenseDto } from 'lib/src/apps/expense/create-expense.dto';
+import { PeriodType } from 'lib/src/util/date-range.util';
 
 @ApiTags('Expense')
 @Controller('expense')
@@ -33,8 +34,8 @@ export class ExpensesController {
     @ApiBadRequestResponse({ type: ResponseTypeDto, description: 'An error ocurred. A message explaining will be notified.' })
     @ApiInternalServerErrorResponse({ type: ResponseTypeDto, description: 'An error ocurred. A message explaining will be notified.' })
     @ApiUnauthorizedResponse({ type: ResponseTypeDto, description: 'Unauthorized' })
-    async monthSummary(@Param('userId') userId: string) {
-        return this.expensesService.getMonthlySummary(userId);
+    async monthSummary(@Param('userId') userId: string, @Query('date') date: Date, @Query('period') period: PeriodType) {
+        return this.expensesService.getMonthlySummary(userId, date, period);
     }
 
     @Get(':userId')

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExpenseRepository } from './respository/expense.repository';
 import { CreateExpenseDto } from 'lib/src/apps/expense/create-expense.dto';
+import { PeriodType } from 'lib/src/util/date-range.util';
 
 @Injectable()
 export class ExpensesService {
@@ -24,8 +25,8 @@ export class ExpensesService {
         return this.expenseRepository.getDailyTotal(userId, new Date());
     }
 
-    async getMonthlySummary(userId: string) {
-        return this.expenseRepository.getMonthlyByCategory(userId, new Date());
+    async getMonthlySummary(userId: string, date: Date, period: PeriodType) {
+        return this.expenseRepository.getMonthlyByCategory(userId, date, period);
     }
 
     async listByPeriod(userId: string, start: Date, end: Date) {
