@@ -15,6 +15,7 @@ export class ExpenseRepository extends Repository<Expense> {
         category: string;
         description?: string;
         expense_date: Date;
+        source?: string;
     }): Promise<Expense> {
         const expense = this.create({
             amount: data.amount,
@@ -22,6 +23,7 @@ export class ExpenseRepository extends Repository<Expense> {
             description: data.description,
             expense_date: data.expense_date,
             user: { id: data.userId } as any,
+            source: data.source,
         });
 
         return this.save(expense);

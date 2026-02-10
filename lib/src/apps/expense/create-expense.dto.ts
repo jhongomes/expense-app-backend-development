@@ -25,4 +25,8 @@ export class CreateExpenseDto {
     @IsNotEmpty()
     @IsDateString()
     expense_date: Date;
+
+    @ApiProperty({ type: 'string', required: false })
+    @IsOptional()
+    source?: string;
 }
