@@ -12,12 +12,16 @@ export class Expense1770673119423 implements MigrationInterface {
             "description" VARCHAR(255),
             "expense_date" DATE NOT NULL,
             "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+            "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
             CONSTRAINT "fk_expense_user"
               FOREIGN KEY ("user_id")
               REFERENCES "user"("id")
               ON DELETE CASCADE
-    );
-`);
+    )`);
+        await queryRunner.query(`
+            CREATE INDEX idx_expense_user_date
+            ON expense (user_id, expense_date);
+    `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

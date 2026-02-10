@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Between, DataSource, Repository } from 'typeorm';
 import { Expense } from '../entity/expense.entity';
+import { getDateRange, PeriodType } from 'lib/src/util/date-range.util';
 
 @Injectable()
 export class ExpenseRepository extends Repository<Expense> {
@@ -30,19 +31,21 @@ export class ExpenseRepository extends Repository<Expense> {
         return this.createQueryBuilder('e')
             .select('COALESCE(SUM(e.amount), 0)', 'total')
             .where('e.user_id = :userId', { userId })
-            .andWhere('e.expenseDate = :date', { date })
+            .andWhere('e.expense_date = :date', { date })
             .getRawOne();
     }
 
-    async getMonthlyByCategory(userId: string, month: Date) {
+    async getMonthlyByCategory(userId: string, date: Date, period: PeriodType) {
+        const { start, end } = getDateRange(date, period);
+        console.log(start, end);
+
         return this.createQueryBuilder('e')
             .select('e.category', 'category')
             .addSelect('SUM(e.amount)', 'total')
+            .addSelect('COUNT(*)', 'count')
             .where('e.user_id = :userId', { userId })
-            .andWhere(
-                `date_trunc('month', e.expenseDate) = date_trunc('month', :month)`,
-                { month },
-            )
+            .andWhere('e.expense_date >= :start', { start })
+            .andWhere('e.expense_date < :end', { end })
             .groupBy('e.category')
             .getRawMany();
     }
@@ -53,7 +56,7 @@ export class ExpenseRepository extends Repository<Expense> {
                 user: { id: userId },
                 expense_date: Between(start, end),
             },
-            order: { expense_date: 'DESC' },
+            order: { category: 'ASC' },
         });
     }
 }
