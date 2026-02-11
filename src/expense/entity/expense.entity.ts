@@ -23,6 +23,9 @@ export class Expense {
   @Column({ type: 'date' })
   expense_date: Date;
 
+  @Column({ nullable: true })
+  source?: string;
+
   @CreateDateColumn()
   created_at: Date;
 

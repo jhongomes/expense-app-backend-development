@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppDataSource } from 'config/typeorm.config';
 import { ExpensesModule } from './expense/expense.module';
 import { ConfigModule } from '@nestjs/config';
+import { WhatsapModule } from './whatsap/whatsap.module';
 
 @Module({
    imports: [
@@ -13,7 +14,8 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
     }),
     USerModule,
-    ExpensesModule
+    ExpensesModule,
+    WhatsapModule
   ],
   controllers: [],
   providers: [],
