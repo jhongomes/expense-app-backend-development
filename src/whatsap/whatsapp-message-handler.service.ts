@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PendingExpenseStore } from 'lib/src/validators/pending-expense.store';
+import { CategoryService } from 'src/category/category.service';
 import { AIExpenseExtractorService } from 'src/expense/ai-expense-extraction.service';
 import { ExpensesService } from 'src/expense/expense.service';
 
 interface HandleTextMessageInput {
-  userId: string;
+  user_id: string;
   from: string;
   text: string;
 }
@@ -22,27 +23,34 @@ export class WhatsappMessageHandlerService {
   constructor(
     private readonly extractor: AIExpenseExtractorService,
     private readonly expenseService: ExpensesService,
-    private readonly pendingStore: PendingExpenseStore
+    private readonly pendingStore: PendingExpenseStore,
+    private readonly categoryService: CategoryService
   ) { }
 
   async handleTextMessage(
     input: HandleTextMessageInput,
   ): Promise<HandlerResponse> {
-    const { text, userId } = input;
+    const { text, user_id } = input;
 
-    const pending = this.pendingStore.get(userId);
-  
+    const pending = this.pendingStore.get(user_id);
+
     if (pending) {
-      await this.expenseService.addExpense(userId, {
-        userId,
+      const category = await this.categoryService.resolveCategory(
+        user_id,
+        text,
+      );
+
+      await this.expenseService.addExpense(user_id, {
+        user_id,
         description: pending.description,
         amount: pending.amount,
-        category: text.toLowerCase(),
+        category_id: category.id,
+        category_slug: category.slug,
         expense_date: pending.date,
         source: 'whatsapp',
       });
 
-      this.pendingStore.clear(userId);
+      this.pendingStore.clear(user_id);
 
       return {
         type: 'saved',
@@ -65,8 +73,8 @@ export class WhatsappMessageHandlerService {
     }
 
     if (!extraction.category) {
-      this.pendingStore.set(userId, {
-        userId,
+      this.pendingStore.set(user_id, {
+        user_id,
         description: extraction.description ?? 'Despesa via WhatsApp',
         amount: extraction.amount,
         date: extraction.date
@@ -83,24 +91,32 @@ export class WhatsappMessageHandlerService {
       };
     }
 
-    const expense = await this.expenseService.addExpense(userId, {
-      userId,
-      description: extraction.description ?? 'Despesa registrada via WhatsApp',
-      amount: extraction.amount,
-      category: extraction.category,
-      expense_date: extraction.date
-        ? new Date(extraction.date)
-        : new Date(),
-      source: 'whatsapp',
-    });
+    if (extraction.category) {
+      const category = await this.categoryService.resolveCategory(
+        user_id,
+        extraction.category,
+      );
 
-    return {
-      type: 'saved',
-      message:
-        `✅ Despesa registrada!\n` +
-        `📝 ${expense.description}\n` +
-        `🏷️ ${expense.category}\n` +
-        `💰 R$ ${expense.amount}`,
-    };
+      const expense = await this.expenseService.addExpense(user_id, {
+        user_id,
+        description: extraction.description ?? 'Despesa registrada via WhatsApp',
+        amount: extraction.amount,
+        category_id: category.id,
+        category_slug: category.slug,
+        expense_date: extraction.date
+          ? new Date(extraction.date)
+          : new Date(),
+        source: 'whatsapp',
+      });
+
+      return {
+        type: 'saved',
+        message:
+          `✅ Despesa registrada!\n` +
+          `📝 ${expense.description}\n` +
+          `🏷️ ${expense.category}\n` +
+          `💰 R$ ${expense.amount}`,
+      };
+    }
   }
 }

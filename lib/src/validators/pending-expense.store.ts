@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 interface PendingExpense {
-    userId: string;
+    user_id: string;
     description: string;
     amount: number;
     date: Date;
@@ -11,15 +11,15 @@ interface PendingExpense {
 export class PendingExpenseStore {
     private store = new Map<string, PendingExpense>();
 
-    set(userId: string, expense: PendingExpense) {
-        this.store.set(userId, expense);
+    set(user_id: string, expense: PendingExpense) {
+        this.store.set(user_id, expense);
     }
 
-    get(userId: string): PendingExpense | undefined {
-        return this.store.get(userId);
+    get(user_id: string): PendingExpense | undefined {
+        return this.store.get(user_id);
     }
 
-    clear(userId: string) {
-        this.store.delete(userId);
+    clear(user_id: string) {
+        this.store.delete(user_id);
     }
 }

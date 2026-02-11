@@ -10,20 +10,23 @@ export class ExpenseRepository extends Repository<Expense> {
     }
 
     async createExpense(data: {
-        userId: string;
+        user_id: string;
         amount: number;
-        category: string;
+        category_id: string;
+        category_slug: string;
         description?: string;
         expense_date: Date;
         source?: string;
     }): Promise<Expense> {
+
         const expense = this.create({
             amount: data.amount,
-            category: data.category,
+            category_id: data.category_id,
+            category_slug: data.category_slug,
             description: data.description,
             expense_date: data.expense_date,
-            user: { id: data.userId } as any,
-            source: data.source,
+            user: { id: data.user_id } as any,
+            source: data.source ? data.source : null,
         });
 
         return this.save(expense);

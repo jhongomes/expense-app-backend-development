@@ -5,9 +5,10 @@ import { WhatsappMessageHandlerService } from './whatsapp-message-handler.servic
 import { WhatsapSendService } from './services/whatsap-send.service';
 import { ExpensesModule } from 'src/expense/expense.module';
 import { PendingExpenseStore } from 'lib/src/validators/pending-expense.store';
+import { CategoryModule } from 'src/category/category.module';
 
 @Module({
-    imports: [ExpensesModule],
+    imports: [ExpensesModule, CategoryModule],
     controllers: [WhatsappWebhookController],
     providers: [WhatsappService, WhatsappMessageHandlerService, WhatsapSendService, PendingExpenseStore],
     exports: [WhatsappService],

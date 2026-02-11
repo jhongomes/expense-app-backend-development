@@ -1,3 +1,4 @@
+import { Category } from "src/category/entity/category.entity";
 import { User } from "src/user/entity/user.entity";
 import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -14,8 +15,15 @@ export class Expense {
   @Column('numeric', { precision: 10, scale: 2 })
   amount: number;
 
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
+
+  @Column({ type: 'uuid' })
+  category_id: string;
+
   @Column()
-  category: string;
+  category_slug: string;
 
   @Column({ nullable: true })
   description?: string;

@@ -32,7 +32,4 @@ export class User {
 
     @OneToMany(() => Expense, expense => expense.user)
     expenses: Expense[];
-    
-    //@OneToOne(() => Subscription, sub => sub.user)
-    //subscription: Subscription;
 }

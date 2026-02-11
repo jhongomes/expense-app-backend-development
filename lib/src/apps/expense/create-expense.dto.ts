@@ -4,7 +4,7 @@ import { IsUUID, IsNumber, IsString, IsOptional, IsDateString, IsNotEmpty } from
 export class CreateExpenseDto {
     @ApiProperty({ type: 'string', required: true })
     @IsUUID()
-    userId: string;
+    user_id: string;
 
     @ApiProperty({ type: 'number', required: true })
     @IsNotEmpty()
@@ -14,7 +14,12 @@ export class CreateExpenseDto {
     @ApiProperty({ type: 'string', required: true })
     @IsNotEmpty()
     @IsString()
-    category: string;
+    category_id: string;
+
+    @ApiProperty({ type: 'string', required: true })
+    @IsNotEmpty()
+    @IsString()
+    category_slug: string;
 
     @ApiProperty({ type: 'string', required: false })
     @IsOptional()

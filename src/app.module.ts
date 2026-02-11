@@ -5,6 +5,7 @@ import { AppDataSource } from 'config/typeorm.config';
 import { ExpensesModule } from './expense/expense.module';
 import { ConfigModule } from '@nestjs/config';
 import { WhatsapModule } from './whatsap/whatsap.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
    imports: [
@@ -15,7 +16,8 @@ import { WhatsapModule } from './whatsap/whatsap.module';
     }),
     USerModule,
     ExpensesModule,
-    WhatsapModule
+    WhatsapModule,
+    CategoryModule
   ],
   controllers: [],
   providers: [],

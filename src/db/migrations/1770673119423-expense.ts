@@ -8,9 +8,11 @@ export class Expense1770673119423 implements MigrationInterface {
             "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
             "user_id" uuid NOT NULL,
             "amount" NUMERIC(10,2) NOT NULL,
-            "category" VARCHAR(30) NOT NULL,
+            "category_id" VARCHAR(32) NOT NULL,
+            "category_slug" VARCHAR(32) NOT NULL,
             "description" VARCHAR(255),
             "expense_date" DATE NOT NULL,
+            "source" VARCHAR(30) NULL,
             "created_at" TIMESTAMP NOT NULL DEFAULT now(),
             "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
             CONSTRAINT "fk_expense_user"

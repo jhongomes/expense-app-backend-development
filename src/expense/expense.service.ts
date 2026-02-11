@@ -9,14 +9,16 @@ export class ExpensesService {
         private readonly expenseRepository: ExpenseRepository,
     ) { }
 
-    async addExpense(userId: string, dto: CreateExpenseDto & {
+    async addExpense(user_id: string, dto: CreateExpenseDto & {
         amount: number;
-        category: string;
+        category_id: string;
+        category_slug: string;
         description?: string;
         expense_date: Date;
+        source?: string;
     }) {
         return this.expenseRepository.createExpense({
-            userId,
+            user_id,
             ...dto,
         });
     }

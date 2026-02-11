@@ -36,7 +36,7 @@ export class WhatsappService {
         const result = await this.messageHandler.handleTextMessage({
             from: message.from,
             text,
-            userId: message.from,
+            user_id: message.from,
         });
 
         await this.dispatchHandlerResponse(message.from, result);

@@ -1,4 +1,5 @@
 export enum Repository {
     USER = 'user',
-    EXPENSE = 'expense'
+    EXPENSE = 'expense',
+    CATEGORY = 'category'
 }

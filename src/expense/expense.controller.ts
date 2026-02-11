@@ -19,7 +19,7 @@ export class ExpensesController {
     @ApiInternalServerErrorResponse({ type: ResponseTypeDto, description: 'An error ocurred. A message explaining will be notified.' })
     @ApiUnauthorizedResponse({ type: ResponseTypeDto, description: 'Unauthorized' })
     async createExpense(@Body() dto: CreateExpenseDto) {
-        return this.expensesService.addExpense(dto.userId, dto);
+        return this.expensesService.addExpense(dto.user_id, dto);
     }
 
     @Get('summary/today/:userId')
